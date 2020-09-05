@@ -1,27 +1,20 @@
 # Socket
 
-This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 10.0.6.
+This project uses the [MEAN stack](https://en.wikipedia.org/wiki/MEAN_(software_bundle)):
+* [MongoDB](https://www.mongodb.com): database
+* [**E**xpress.js](http://expressjs.com): backend framework
+* [**A**ngular 2+](https://angular.io): frontend framework
+* [**N**ode.js](https://nodejs.org): runtime environment
 
-## Development server
+Other tools and technologies used:
+* [Angular CLI](https://cli.angular.io): frontend scaffolding
+* [Bootstrap](http://www.getbootstrap.com): layout and styles
+* [Font Awesome](http://fontawesome.com): icons
+* [ngx-json-viewer](https://www.npmjs.com/package/ngx-json-viewer): json views
 
-Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The app will automatically reload if you change any of the source files.
+## Prerequisites
+1. Install [Node.js](https://nodejs.org) and [MongoDB](https://www.mongodb.com)
+2. Create your [MongoDB Database](https://docs.atlas.mongodb.com/getting-started/) and connect to your [Cluster](https://docs.atlas.mongodb.com/tutorial/connect-to-your-cluster/) from server.js file
+4. Install Angular CLI: `npm i -g @angular/cli`
+4. From project root folder install all the dependencies: `npm i`
 
-## Code scaffolding
-
-Run `ng generate component component-name` to generate a new component. You can also use `ng generate directive|pipe|service|class|guard|interface|enum|module`.
-
-## Build
-
-Run `ng build` to build the project. The build artifacts will be stored in the `dist/` directory. Use the `--prod` flag for a production build.
-
-## Running unit tests
-
-Run `ng test` to execute the unit tests via [Karma](https://karma-runner.github.io).
-
-## Running end-to-end tests
-
-Run `ng e2e` to execute the end-to-end tests via [Protractor](http://www.protractortest.org/).
-
-## Further help
-
-To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI README](https://github.com/angular/angular-cli/blob/master/README.md).
