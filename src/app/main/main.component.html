@@ -1,0 +1,188 @@
+<table class="table table-hover" style="margin: 1rem">
+  <thead>
+    <tr>
+      <th>Log Tipi</th>
+      <th>Yanıt Durum Kodu</th>
+      <th>Servis Adı</th>
+      <th>Tarih</th>
+      <th>İstek Metodu</th>
+      <th>Adres</th>
+      <th>İşlemler</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr *ngFor="let message of socketService.socketMessages$ | async">
+      <td>{{ message.Level }}</td>
+      <td>
+        <span
+          class="badge-pill"
+          [ngClass]="{
+            'badge-info':
+              message.Properties.HttpLogModel.Response.StatusCode == 200,
+            'badge-danger':
+              message.Properties.HttpLogModel.Response.StatusCode == 404,
+            'badge-warning':
+              message.Properties.HttpLogModel.Response.StatusCode == 500,
+            'badge-secondary':
+              message.Properties.HttpLogModel.Response.StatusCode != 500 &&
+              message.Properties.HttpLogModel.Response.StatusCode != 200 &&
+              message.Properties.HttpLogModel.Response.StatusCode != 404
+          }"
+          >{{ message.Properties.HttpLogModel.Response.StatusCode }}</span
+        >
+      </td>
+      <td>{{ message.Properties.HttpLogModel.Service }}</td>
+      <td>{{ message.UtcTimestamp.slice(0, -1) }}</td>
+      <td>{{ message.Properties.HttpLogModel.Request.Method }}</td>
+      <td>{{ message.Properties.HttpLogModel.Request.Path }}</td>
+      <td>
+        <button class="btn btn-info btn-sm btn-detail" (click)="open(mymodal)">
+          <i class="fa fa-search"></i>&nbsp;Detay
+        </button>
+      </td>
+      <td style="display: none">
+        <ng-template #mymodal let-modal>
+          <div class="modal-header">
+            <h3 class="modal-title" id="modal-basic-title">İstek Detayları</h3>
+            <button
+              type="button"
+              class="close"
+              aria-label="Close"
+              (click)="modal.dismiss('Cross click')"
+            >
+              <span aria-hidden="true">×</span>
+            </button>
+          </div>
+          <div class="modal-body">
+            <ul class="list-group">
+              <li
+                class="list-group-item general-info"
+                data-toggle="collapse"
+                href="#collapsegeneral"
+                role="button"
+                aria-expanded="false"
+                aria-controls="collapseExample"
+              >
+                <i class="fas fa-info-circle"></i>&nbsp;Genel Bilgiler
+              </li>
+              <div class="collapse" id="collapsegeneral">
+                <div class="card card-body">
+                  <li class="list-group-item key">
+                    Tarih:
+                    <span class="value">
+                      {{ message.UtcTimestamp.slice(0, -1) }}</span
+                    >
+                  </li>
+                  <li class="list-group-item key">
+                    Log Tipi: <span class="value">{{ message.Level }}</span>
+                  </li>
+                  <li class="list-group-item key">
+                    Servis Adı:
+                    <span class="value">{{
+                      message.Properties.HttpLogModel.Service
+                    }}</span>
+                  </li>
+                </div>
+              </div>
+              <li
+                class="list-group-item request"
+                data-toggle="collapse"
+                href="#collapserequest"
+                role="button"
+                aria-expanded="false"
+                aria-controls="collapseExample"
+              >
+                <i class="fas fa-check-circle"></i>&nbsp;İstek
+              </li>
+              <div class="collapse" id="collapserequest">
+                <div class="card card-body">
+                  <li class="list-group-item key">
+                    Adres:
+                    <span class="value"
+                      >{{ message.Properties.HttpLogModel.Request.Host
+                      }}{{ message.Properties.HttpLogModel.Request.Path }}</span
+                    >
+                  </li>
+                  <li class="list-group-item key">
+                    İstek Metodu:
+                    <span class="value">{{
+                      message.Properties.HttpLogModel.Request.Method
+                    }}</span>
+                  </li>
+                  <li class="list-group-item key">
+                    Uygulama Id:
+                    <span class="value">{{
+                      message.Properties.HttpLogModel.Request.Headers.AppKey
+                        | json: 4
+                    }}</span>
+                  </li>
+                  <li class="list-group-item key">
+                    İstek:<span class="value"></span
+                    ><ngx-json-viewer
+                      [json]="message.Properties.HttpLogModel.Request.Body"
+                    ></ngx-json-viewer>
+                  </li>
+                </div>
+              </div>
+              <li
+                class="list-group-item response"
+                data-toggle="collapse"
+                href="#collapseresponse"
+                role="button"
+                aria-expanded="false"
+                aria-controls="collapseExample"
+                [ngClass]="{
+                  'text-info':
+                    message.Properties.HttpLogModel.Response.StatusCode == 200,
+                  'text-danger':
+                    message.Properties.HttpLogModel.Response.StatusCode == 404,
+                  'text-warning':
+                    message.Properties.HttpLogModel.Response.StatusCode == 500
+                }"
+              >
+                <i class="fas fa-reply"></i>&nbsp;Cevap
+              </li>
+              <div class="collapse" id="collapseresponse">
+                <div class="card card-body">
+                  <li
+                    [ngClass]="{
+                      'text-info':
+                        message.Properties.HttpLogModel.Response.StatusCode ==
+                        200,
+                      'text-danger':
+                        message.Properties.HttpLogModel.Response.StatusCode ==
+                        404,
+                      'text-warning':
+                        message.Properties.HttpLogModel.Response.StatusCode ==
+                        500
+                    }"
+                    class="list-group-item"
+                  >
+                    Yanıt Durum Kodu:
+                    {{ message.Properties.HttpLogModel.Response.StatusCode }}
+                  </li>
+                  <li class="list-group-item"></li>
+                  <li class="list-group-item key">
+                    Cevap:<span class="value"></span
+                    ><ngx-json-viewer
+                      [json]="message.Properties.HttpLogModel.Response.Body"
+                    ></ngx-json-viewer>
+                  </li>
+                </div>
+              </div>
+            </ul>
+          </div>
+          <div class="modal-footer">
+            <button
+              type="button"
+              class="btn btn-outline-dark btn-close"
+              (click)="modal.close('Save click')"
+            >
+              Kapat&nbsp;<i class="fas fa-times-circle"></i>
+            </button>
+          </div>
+        </ng-template>
+      </td>
+    </tr>
+  </tbody>
+</table>

@@ -1,0 +1,74 @@
+td,
+th {
+  text-align: center;
+}
+
+.badge-pill {
+  border-radius: 1rem;
+  padding: 2px 11px;
+  font-size: 14px;
+}
+
+.value {
+  color: black;
+  font-weight: normal;
+}
+
+.key {
+  color: brown;
+  font-weight: bold;
+}
+
+.btn-detail i {
+  font-size: 12px;
+}
+
+.btn-detail {
+  border-radius: 20px;
+  padding: 3px 10px;
+}
+
+.btn-close {
+  border-radius: 20px;
+  padding: 3px 10px;
+}
+
+tr th {
+  font-family: 'Open Sans', sans-serif;
+  font-size: 15px;
+  font-weight: bold;
+}
+
+tr td {
+  font-family: 'Open Sans', sans-serif;
+  font-size: 14px;
+  font-weight: 500;
+}
+
+.modal-header {
+  background: linear-gradient(rgba(0, 0, 0, 0) 0%, rgba(51, 117, 106, 0.7) 100%);
+}
+
+.modal-header h3 {
+  font-family: 'Open Sans', sans-serif;
+  font-size: 17px;
+  font-weight: bold;
+  text-align: center;
+  width: 100%;
+}
+
+.list-group-item {
+  padding: 11px 15px;
+}
+
+.general-info {
+  color: inherit;
+}
+
+.request {
+  color: darkslateblue;
+}
+
+.response {
+  color: darkslategrey;
+}
