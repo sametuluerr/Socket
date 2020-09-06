@@ -18,3 +18,5 @@ Other tools and technologies used:
 4. Install Angular CLI: `npm i -g @angular/cli`
 4. From project root folder install all the dependencies: `npm i`
 
+## Preview
+![](screen.gif)
