@@ -14,9 +14,20 @@ Other tools and technologies used:
 
 ## Prerequisites
 1. Install [Node.js](https://nodejs.org) and [MongoDB](https://www.mongodb.com)
-2. Create your [MongoDB Database](https://docs.atlas.mongodb.com/getting-started/) and connect to your [Cluster](https://docs.atlas.mongodb.com/tutorial/connect-to-your-cluster/) from config.env file
+2. Create your [MongoDB Database](https://docs.atlas.mongodb.com/getting-started/) and connect to your [Cluster](https://docs.atlas.mongodb.com/tutorial/connect-to-your-cluster/) from [config.env](./config/env/config.env) file
 4. Install Angular CLI: `npm i -g @angular/cli`
 4. From project root folder install all the dependencies: `npm i`
+
+## How to run
+After the prerequisites, run following commands on a terminal.
+  ```
+  node server.js
+  ```
+
+To run the application itself, type the following.
+  ```
+  ng serve --open
+  ```
 
 ## Preview
 ![](screen.gif)
