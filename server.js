@@ -1,39 +1,48 @@
 const app = require("express")();
 const http = require("http").createServer(app);
 const io = require("socket.io")(http);
-
-// Please use your Mongodb URI
-// For More Information: https://www.mongodb.com/cloud/atlas
-const uri = "mongodb+srv://<username>:<password>@cluster0.erzry.mongodb.net/test";
+const dotenv = require("dotenv");
 const MongoClient = require("mongodb").MongoClient;
 
-const mongoClient = new MongoClient(uri, {
+// Environment Variables
+dotenv.config({
+  path: "./config/env/config.env",
+});
+
+const { MONGO_URI, DB_NAME, COLLECTION_NAME } = process.env;
+
+const mongoClient = new MongoClient(MONGO_URI, {
   useNewUrlParser: true,
   useUnifiedTopology: true,
 });
 
 io.on("connection", (socket) => {
-  console.log("a user connected");
   mongoClient.connect().then((db) => {
-    db.db("logdb").collection("log").find().sort({ _id: -1 }).limit(20).toArray(function (err, result) {
-        if (err) throw err;
-        io.emit("livedata", result);
-      });
-    socket.on("disconnect", () => {
-      console.log("user disconnected");
-    });
+    getRecords(db, 20);
   });
 });
 
 mongoClient.connect().then((db) => {
-  const changeStream = mongoClient.db("logdb").collection("log").watch();
+  const changeStream = mongoClient
+    .db(DB_NAME)
+    .collection(COLLECTION_NAME)
+    .watch();
   changeStream.on("change", (next) => {
-    db.db("logdb").collection("log").find().sort({_id:-1}).limit(1).toArray(function(err, result) {
+    getRecords(db, 1);
+  });
+});
+
+getRecords = (db, recordCount) => {
+  db.db(DB_NAME)
+    .collection(COLLECTION_NAME)
+    .find()
+    .sort({ _id: -1 })
+    .limit(recordCount)
+    .toArray(function (err, result) {
       if (err) throw err;
       io.emit("livedata", result);
     });
-  });
-});
+};
 
 http.listen(3000, () => {
   console.log("listening on *:3000");
